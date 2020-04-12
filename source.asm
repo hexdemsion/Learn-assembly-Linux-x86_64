@@ -5,34 +5,37 @@ section .data
 	SYS_EXIT equ 60
 	DONE_EXIT equ 0
 
-	pesan db 'Adakah bosku', 0xa
-	len_pesan equ $ - pesan
+	std_lulus dq 85
+	nilai_kamu dq 60
 
-	namafile db 'mantap.txt', 0
-	len_namafile equ $ - namafile
+	lulus_str dq 'Selamat kamu lulus', 0
+	len_lulus_str equ $ - lulus_str
 
-	filedesc db 0
+	gaklulus_str dq 'Ulang tahun depan', 0
+	len_gaklulus_str equ $ - gaklulus_str
 
 section .text
 	global _start
 
 _start:
-    mov rax, 2 ; kode sys_open
-	mov rdi, namafile ; file nya
-    mov rsi, 0101o ; flags O_CREAT+O_WRONLY
-    mov rdx, 0755o ; chmod 755 file.txt
-    syscall
+	mov rax, [nilai_kamu]
+	mov rbx, nilai_kamu
+	; cmp rax, std_lulus
+	; jge notifLulus
+	jmp last
 
-    mov [filedesc], rax
-
-	mov rax, 1 ; kode sys_write
-	mov rdi, [filedesc] ; pointer ke file
-	mov rsi, pesan ; variable pesan yang mau ditulis
-	mov rdx, len_pesan ; panjang pesannya
+notifLulus:
+	mov rax, 1
+	mov rdi, 1
+	mov rsi, lulus_str
+	mov rdx, len_lulus_str
 	syscall
 
-	mov rax, 3 ; kode sys_close
-	mov rdi, filedesc ; pointer ke file
+notifGagal:
+	mov rax, 1
+	mov rdi, 1
+	mov rsi, gaklulus_str
+	mov rdx, len_gaklulus_str
 	syscall
 
 last:
