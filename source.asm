@@ -6,12 +6,12 @@ section .data
 	DONE_EXIT equ 0
 
 	std_lulus dq 85
-	nilai_kamu dq 60
+	nilai_kamu dq 98
 
-	lulus_str dq 'Selamat kamu lulus', 0
+	lulus_str dq 'Selamat kamu lulus', 0xa
 	len_lulus_str equ $ - lulus_str
 
-	gaklulus_str dq 'Ulang tahun depan', 0
+	gaklulus_str dq 'Ulang tahun depan', 0xa
 	len_gaklulus_str equ $ - gaklulus_str
 
 section .text
@@ -19,9 +19,16 @@ section .text
 
 _start:
 	mov rax, [nilai_kamu]
-	mov rbx, nilai_kamu
-	; cmp rax, std_lulus
-	; jge notifLulus
+	cmp rax, [std_lulus]
+	jge notifLulus
+	jmp notifGagal
+
+notifGagal:
+	mov rax, 1
+	mov rdi, 1
+	mov rsi, gaklulus_str
+	mov rdx, len_gaklulus_str
+	syscall
 	jmp last
 
 notifLulus:
@@ -30,13 +37,7 @@ notifLulus:
 	mov rsi, lulus_str
 	mov rdx, len_lulus_str
 	syscall
-
-notifGagal:
-	mov rax, 1
-	mov rdi, 1
-	mov rsi, gaklulus_str
-	mov rdx, len_gaklulus_str
-	syscall
+	jmp last
 
 last:
 	mov rax, SYS_EXIT
