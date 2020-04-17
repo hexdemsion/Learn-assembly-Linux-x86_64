@@ -5,14 +5,14 @@ section .data
 	SYS_EXIT equ 60
 	DONE_EXIT equ 0
 
-	nilai_kamu db 65
-
 section .text
 	global _start
 
 _start:
-	mov rax, [nilai_kamu]
-	mov rbx, nilai_kamu
+	mov rax, 150
+	push rax
+	mov rax, 22
+	push rax
 
 last:
 	mov rax, SYS_EXIT
