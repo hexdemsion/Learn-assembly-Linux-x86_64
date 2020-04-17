@@ -5,39 +5,13 @@ section .data
 	SYS_EXIT equ 60
 	DONE_EXIT equ 0
 
-	std_lulus dq 85
-	nilai_kamu dq 98
-
-	lulus_str dq 'Selamat kamu lulus', 0xa
-	len_lulus_str equ $ - lulus_str
-
-	gaklulus_str dq 'Ulang tahun depan', 0xa
-	len_gaklulus_str equ $ - gaklulus_str
+	umur db 5,2,21,9
 
 section .text
 	global _start
 
 _start:
-	mov rax, [nilai_kamu]
-	cmp rax, [std_lulus]
-	jge notifLulus
-	jmp notifGagal
-
-notifGagal:
-	mov rax, 1
-	mov rdi, 1
-	mov rsi, gaklulus_str
-	mov rdx, len_gaklulus_str
-	syscall
-	jmp last
-
-notifLulus:
-	mov rax, 1
-	mov rdi, 1
-	mov rsi, lulus_str
-	mov rdx, len_lulus_str
-	syscall
-	jmp last
+	mov rax, [umur]
 
 last:
 	mov rax, SYS_EXIT
